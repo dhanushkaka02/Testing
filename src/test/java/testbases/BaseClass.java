@@ -6,10 +6,7 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeSuite;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,10 +14,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class BaseClass {
-    public WebDriver driver;
-    public Logger logger;
+    public static WebDriver driver;
+    public static Logger logger;
 
-    @BeforeClass
+    @BeforeSuite
     public void setUp() {
         logger = LogManager.getLogger(this.getClass());
         logger.info("Ths is starting");
@@ -30,13 +27,13 @@ public class BaseClass {
 
     }
 
-//    @AfterClass
+//    @AfterSuite
 //    public void tearDown() {
 //        driver.quit();
 //    }
 
     public String captureScreenshot(String tname) throws IOException{
-        String timeStamp = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss_SSS").format(new Date());
         TakesScreenshot ts = (TakesScreenshot) driver;
         File screenshot = ts.getScreenshotAs(OutputType.FILE);
         String tfp = System.getProperty("user.dir")+"\\screenshots\\"+timeStamp+".png";

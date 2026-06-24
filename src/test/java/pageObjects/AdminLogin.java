@@ -1,5 +1,6 @@
 package pageObjects;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -14,6 +15,7 @@ public class AdminLogin extends BAsePage {
     WebDriverWait wait;
     public AdminLogin(WebDriver driver) {
         super(driver);
+        this.driver = driver;
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
     }
@@ -26,15 +28,23 @@ public class AdminLogin extends BAsePage {
     @FindBy(xpath = "//button[@class='w-full mt-8 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 active:from-blue-800 active:to-blue-900 text-white font-semibold py-3 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl hover:-translate-y-0.5 active:shadow-md active:translate-y-0 flex items-center justify-center gap-2']")
     WebElement loginButton;
 
+    @FindBy(xpath="//p[@class='text-sm font-medium text-red-900']")
+    WebElement errorMessage;
+    @FindBy(xpath = "//h1[normalize-space()='Admin Control Center']")
+    WebElement displayMsg;
+
+
+
     public void clickAdmin() {
         adminClick.click();
     }
     public void sendAdminName(String username) {
-        wait.until(ExpectedConditions.visibilityOf(userName));
+        wait.until(ExpectedConditions.visibilityOf(userName)).clear();
         userName.sendKeys(username);
+
     }
     public void sendAdminPassword(String pwd) {
-        wait.until(ExpectedConditions.visibilityOf(password));
+        wait.until(ExpectedConditions.visibilityOf(password)).clear();
         password.sendKeys(pwd);
     }
     public void clickAdminLoginButton() {
@@ -43,5 +53,12 @@ public class AdminLogin extends BAsePage {
         loginButton.click();
 
     }
+
+
+    public String checkError() {
+        wait.until(ExpectedConditions.visibilityOf(errorMessage));
+        return errorMessage.getText();
+    }
+
 
 }
